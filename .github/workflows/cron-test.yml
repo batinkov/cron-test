@@ -1,0 +1,22 @@
+name: Cron Test
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'   # every 15 minutes (UTC)
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Report trigger and delay
+        env:
+          EVENT: ${{ github.event_name }}
+          SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          echo "event:    $EVENT"
+          echo "schedule: ${SCHEDULE:-n/a}"
+          echo "started:  $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
